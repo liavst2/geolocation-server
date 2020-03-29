@@ -1,0 +1,2 @@
+# geolocation-server
+Synamedia exercise
