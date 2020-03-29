@@ -8,13 +8,19 @@ import { externalGeoLocator } from "./external-geolocator.bl";
 export class AppBL {
 
   static async getDistance(source: string, destination: string) {
-    let distance = await appData.getDistance(source, destination);
-    if (distance) { // the document does not exists in DB
-      return distance;
+    let doc = await appData.getDistanceDoc(source, destination);
+    if (doc && doc.distance) { 
+      // the document exists in DB, increment its hits
+      await appData.hit(doc._id);
+      return doc.distance;
     }
-    distance = await externalGeoLocator.getDistance(source, destination);
+    let distance = await externalGeoLocator.getDistance(source, destination);
     await appData.setDistance(source, destination, distance);
     return distance;
+  }
+
+  static async getPopular() {
+    return appData.getPopular();
   }
 
   static async checkHealth() {

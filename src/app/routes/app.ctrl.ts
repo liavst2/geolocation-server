@@ -4,8 +4,17 @@ import { AppBL } from "../bl/app.bl";
 
 export namespace AppCtrl {
 
-  export function helloResponse(req: Request, res: Response) {
+  export function sayHello(req: Request, res: Response) {
     res.sendStatus(200);
+  }
+
+  export async function getMostPopular(req: Request, res: Response) {
+    try {
+      const { source, destination, hits } = await AppBL.getPopular();
+      res.status(200).send({ source, destination, hits });
+    } catch (err) {
+      res.status(500).send("Could not find the distance...");
+    }
   }
 
   export async function getDistance(req: Request, res: Response) {
@@ -24,7 +33,7 @@ export namespace AppCtrl {
   export async function checkHealth(req: Request, res: Response) {
     try {
       await AppBL.checkHealth();
-      res.sendStatus(200)
+      res.sendStatus(200);
     } catch (err) {
       res.status(500).send(err && err.message);
     }

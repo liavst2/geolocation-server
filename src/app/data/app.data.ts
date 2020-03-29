@@ -11,22 +11,34 @@ class AppData {
     this.db.connect();
   }
 
-  async getDistance(source: string, destination: string) {
+  async getDistanceDoc(source: string, destination: string) {
     const collection = this.db.db("geolocation").collection("distances");
-    // Fetching destination between source and destination is a commutative operation 
+    // Fetching distance between source and destination is a commutative operation 
     const doc = await collection.findOne({
       $or: [
         { $and: [{ source: source }, { destination: destination }] },
         { $and: [{ source: destination }, { destination: source }] }
       ]
     });
-    return doc && doc.distance;
+    return doc;
   }
 
   async setDistance(source: string, destination: string, distance: number) {
     const collection = this.db.db("geolocation").collection("distances");
-    await collection.insertOne({ source, destination, distance });
+    await collection.insertOne({ source, destination, distance, hits: 1 });
     return true;
+  }
+
+  async hit(_id: string) {
+    const collection = this.db.db("geolocation").collection("distances");
+    await collection.updateOne({ _id }, { $inc: { hits: 1 } });
+    return true;
+  }
+
+  async getPopular() {
+    const collection = this.db.db("geolocation").collection("distances");
+    const mostPopulat = await collection.find({}).sort({ "hits": -1 }).limit(1).toArray();
+    return mostPopulat && mostPopulat[0];
   }
 
   checkAlive() {
