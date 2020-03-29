@@ -1,18 +1,14 @@
-import { EventEmitter } from "events";
+
 import axios from "axios";
 import { Geometry } from "../tools/geometry";
 
 /**
  * The application business logic
  */
-class ExternalGeoLocator extends EventEmitter {
+class ExternalGeoLocator {
 
   readonly URL = "https://geocode.xyz";
   readonly optQuery = "json=1";
-
-  constructor() {
-    super();
-  }
 
   async getDistance(source: string, destination: string) {
     try {

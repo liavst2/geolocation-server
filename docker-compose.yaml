@@ -1,0 +1,18 @@
+
+version: "3"
+
+services:
+  geolocator:
+    build: .
+    container_name: geolocator-node
+    depends_on: 
+      - mongo
+    links: 
+      - mongo
+    ports:
+      - '8080:8080'
+  mongo:
+    image: mongo
+    container_name: geolocator-mongo
+    ports:
+      - '27017:27017'
