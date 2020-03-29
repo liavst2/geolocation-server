@@ -7,3 +7,6 @@ export const appRouter = Router();
 
 appRouter.route("/hello")
   .get(AppCtrl.helloResponse)
+
+appRouter.route("/distance")
+  .get(AppCtrl.getDistance)
