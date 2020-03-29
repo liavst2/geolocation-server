@@ -10,3 +10,6 @@ appRouter.route("/hello")
 
 appRouter.route("/distance")
   .get(AppCtrl.getDistance)
+
+appRouter.route("/health")
+  .get(AppCtrl.checkHealth)

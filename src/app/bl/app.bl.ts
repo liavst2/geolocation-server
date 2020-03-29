@@ -17,4 +17,12 @@ export class AppBL {
     return distance;
   }
 
+  static async checkHealth() {
+    const isDBAlive = appData.checkAlive();
+    if (!isDBAlive) {
+      throw new Error("Database lost connection!");
+    }
+    return true;
+  }
+
 }

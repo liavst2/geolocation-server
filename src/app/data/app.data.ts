@@ -23,6 +23,10 @@ class AppData {
     return true;
   }
 
+  checkAlive() {
+    return this.db.isConnected();
+  }
+
 }
 
 export const appData = new AppData();

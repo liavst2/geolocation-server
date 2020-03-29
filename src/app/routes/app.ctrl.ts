@@ -19,7 +19,15 @@ export namespace AppCtrl {
     } catch (err) {
       res.status(500).send("Could not find the distance...");
     }
+  }
 
+  export async function checkHealth(req: Request, res: Response) {
+    try {
+      await AppBL.checkHealth();
+      res.sendStatus(200)
+    } catch (err) {
+      res.status(500).send(err && err.message);
+    }
   }
 
 }
