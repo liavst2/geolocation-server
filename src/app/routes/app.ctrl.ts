@@ -13,7 +13,7 @@ export namespace AppCtrl {
       const { source, destination, hits } = await AppBL.getPopular();
       res.status(200).send({ source, destination, hits });
     } catch (err) {
-      res.status(500).send("Could not find the distance...");
+      res.status(500).send("Could not fetch the popular search...");
     }
   }
 
